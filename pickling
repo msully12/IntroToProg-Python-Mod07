@@ -1,0 +1,70 @@
+# ------------------------------------------------- #
+# Title: Lab7-1
+# Description: A simple example of storing data in a binary file
+# ChangeLog: (Who, When, What)
+# <Malea Sullivan>,<1.1.2030>,Created Script
+# ------------------------------------------------- #
+import pickle  # This imports code from another code file!
+
+# Data -------------------------------------------- #
+strFileName = 'AppData.dat'
+lstCustomer = []
+
+
+# Processing -------------------------------------- #
+def save_data_to_file(file_name, list_of_data):
+    try:
+        with open(file_name, 'wb') as file:
+            pickle.dump(list_of_data, file)
+            print("Data saved to", file_name)
+    except Exception as e:
+        print("An error occurred:", e)
+
+
+def read_data_from_file(file_name):
+    try:
+        with open(file_name, 'rb') as file:
+            data = pickle.load(file)
+            return data
+    except FileNotFoundError:
+        print("File not found:", file_name)
+        return []
+    except Exception as e:
+        print("An error occurred:", e)
+        return []
+
+
+# Presentation ------------------------------------ #
+try:
+    while True:
+        id_input = input("Enter customer ID (or 'quit' to exit): ")
+        if id_input.lower() == 'quit':
+            break
+
+        name_input = input("Enter customer name: ")
+
+        customer = {'ID': id_input, 'Name': name_input}
+        lstCustomer.append(customer)
+        print("Customer data added.")
+
+except KeyboardInterrupt:
+    print("\nData entry interrupted.")
+
+# Save data to file
+save_data_to_file(strFileName, lstCustomer)
+
+# Read data from file
+loaded_data = read_data_from_file(strFileName)
+print("\nData loaded from file:", loaded_data)
+
+# Write loaded data to a text file
+text_file_name = 'LoadedData.txt'
+try:
+    with open(text_file_name, 'w') as text_file:
+        for customer in loaded_data:
+            text_file.write("Customer ID: " + customer['ID'] + "\n")
+            text_file.write("Customer Name: " + customer['Name'] + "\n")
+            text_file.write("\n")
+    print("Data written to", text_file_name)
+except Exception as e:
+    print("An error occurred:", e)
