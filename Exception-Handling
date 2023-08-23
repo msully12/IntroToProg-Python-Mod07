@@ -1,0 +1,17 @@
+def divide(a, b):
+    try:
+        result = a / b
+        return result
+    except ZeroDivisionError:
+        return "Error: Division by zero!"
+    except TypeError:
+        return "Error: Invalid data types for division!"
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+try:
+    num1 = float(input("Enter the first number: "))
+    num2 = float(input("Enter the second number: "))
+    print(divide(num1, num2))
+except ValueError:
+    print("Error: Please enter valid numeric values.")
